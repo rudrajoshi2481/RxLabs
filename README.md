@@ -8,5 +8,5 @@
 
 
 
-![alt text](./Capture01.png?raw=true)
+![alt text](https://raw.githubusercontent.com/rudrajoshi2481/RxLabs/master/Capture01.PNG)
 
