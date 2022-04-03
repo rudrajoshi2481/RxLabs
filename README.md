@@ -1,4 +1,5 @@
 # RxLabs
+- App is still in development
 
 * remix (react)
 * Firebase(firestore,auth,sotrage,functions)
@@ -9,4 +10,7 @@
 
 
 ![alt text](https://raw.githubusercontent.com/rudrajoshi2481/RxLabs/master/Capture01.PNG)
+
+
+![alt text](https://raw.githubusercontent.com/rudrajoshi2481/RxLabs/master/Capture02.PNG)
 
