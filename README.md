@@ -7,6 +7,8 @@
 * and Other medical Data
 
 
+<!-- images -->
 
+![alt text](https://github.com/[rudrajoshi2481]/[RxLabs]/blob/[master]/Capture01.png?raw=true)
 
 

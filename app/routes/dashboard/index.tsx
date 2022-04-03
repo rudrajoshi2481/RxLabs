@@ -67,7 +67,7 @@ function Index() {
 
   // }
 
-  const [showPage, setShowPage] = useState(0);
+  const [showPage, setShowPage] = useState(1);
 
   return (
     <>
