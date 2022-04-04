@@ -9,35 +9,62 @@ import {
   Tabs,
   Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Input } from "@chakra-ui/react";
 import { ActionFunction, useActionData } from "remix";
-import { fireAuth ,firestore} from "~/utils/fire.server";
+import { fireAuth, firestore } from "~/utils/fire.server";
+import { LoginContext } from "~/context/loginDataContext";
 
 export const action: ActionFunction = async ({ request }: any) => {
   const form = await request.formData();
   let formAction = form.get("_action");
   let email = form.get("email");
-console.log(email);
+  let docEmail = form.get("docEmail");
+  console.log(email);
 
   const col = firestore.collection("rxpat");
-let msg;
+  const labCol = firestore.collection("rxLabsUsers");
+  let msg;
   switch (formAction) {
     case "createPat":
-      col.get().then((snap) => {
-        snap.forEach(m => {
-          if(m.data().email === email){
-            msg = { status: true, login:true ,data:m.data()};
-          }
+      col
+        .get()
+        .then((snap) => {
+          snap.forEach((m) => {
+            if (m.data().email === email) {
+              // msg = { status: true, login:true ,data:m.data()};
+
+              console.log(m.data(),"CREATE PAT 01");
+              
+              labCol.get().then((snapLabs) => {
+                snapLabs.forEach((sl) => {
+                  if (sl.data().email === docEmail) {
+                    // add list of patat
+                    let listOfPat = sl.data().patList;
+                    let oldList = listOfPat.push(email);
+
+                    col
+                      .add({ oldList, ...sl.data() })
+                      .then((res) => {
+                        console.log("Saved in the database");
+                      })
+                      .catch((err) => {
+                        console.log(err, "ERROR DURING SAVING IN DATABASE ");
+                      });
+                  }
+                });
+              });
+            }
+          });
         })
-      }).catch(err => {
-        msg = { status: true, login:false ,data:err};
-      })
+        .catch((err) => {
+          msg = { status: true, login: false, data: err };
+        });
       break;
   }
   console.log(msg);
 
-  return msg
+  return msg;
 };
 
 const FindSavedPat = () => {
@@ -65,6 +92,7 @@ const FindSavedPat = () => {
 
 const CreateNewPatient = () => {
   const [e, setE] = useState("");
+  const [d, setD] = useContext(LoginContext);
 
   return (
     <Box
@@ -83,10 +111,9 @@ const CreateNewPatient = () => {
         my="1"
         onChange={(e) => setE(e.target.value)}
         value={e}
-        
         placeholder="patient Email"
       />
-   
+      <Input value={d.email} name="docEmail" />
       <Button
         m="3"
         name="_action"
@@ -108,12 +135,11 @@ function FindPatient() {
   const ActionData = useActionData();
   useEffect(() => {
     console.log(ActionData);
-    
-    if(ActionData){
+
+    if (ActionData) {
       // setD(ActionData.data)
     }
-  },[ActionData])
-
+  }, [ActionData]);
 
   return (
     <Box style={{ width: "60vw" }}>
