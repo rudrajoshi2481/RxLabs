@@ -103,8 +103,8 @@ function Index() {
               <Viewer />
 
               <OldPrescriptions />
-            </HStack>
-<HStack  justifyContent={"space-between"} alignItems="flex-end">
+            </HStack >
+<HStack mt="8" justifyContent={"space-between"} alignItems="flex-end">
   
 <Button
               onClick={(e) => {
@@ -129,7 +129,7 @@ function Index() {
 
 const OldPrescriptions = () => {
   return (
-    <VStack pl="9" pt="3" mr="15" alignItems={"flex-start"}>
+    <VStack style={{marginRight:'15vw'}} pl="9" pt="3" mr="15" alignItems={"flex-start"}>
       <Heading fontSize="2xl">Old Prescriptions</Heading>
       <UnorderedList>
         <ListItem listStyleType="none">date 17-15-87</ListItem>
@@ -171,6 +171,7 @@ const Viewer = () => {
         >
           Add +
         </Button>
+          <SlateEditor   />
       </Box>
     </Box>
   );
@@ -257,11 +258,11 @@ const PresStack = ({ data }: any) => {
       avoid:"Excess protin"
   },
   {
-    drugs:"warfarin",
+    drug:"warfarin",
     avoid:"Vitamin K-rich foods and supplements,Asian ginseng fecerfew,farlic,ginger,ginkgo,St.John's wort ,green tea"
   },
   {
-    drugs:"tetracycline",
+    drug:"tetracycline",
     avoid:"iron-rich food or supplements,calcium"
   }
 ]

@@ -45,10 +45,10 @@ declare module "slate" {
 }
 export default function SlateEditor() {
   const initialValue: Descendant[] = [
-      {
-      type: "paragraph",
-      children: [{ text: "A line of text in a paragraph." }],
-    },
+      //   {
+      //   type: "paragraph",
+      //   children: [{ text: "A line of comorbidity" }],
+      // },
   ];
 
   const [value, setValue] = React.useState<Descendant[]>(initialValue);
@@ -111,7 +111,7 @@ export default function SlateEditor() {
           {/* <MarkButton e={editor} icon="" format={""} mx="1" size={"sm"}>h2</MarkButton> */}
         </HStack>
       </Box>
-      <Box pt="3" border={"1px"} borderColor="green" borderStyle={"dashed"} style={{width:'70vw',minHeight:"40vh"}} p="3" mt="3">
+      <Box pt="3" border={"1px"} borderColor="green" borderStyle={"dashed"} style={{width:'60vw',minHeight:"10vh"}} p="3" mt="3">
         <Slate editor={editor} value={value} onChange={(e) => setValue(e)}>
           <Editable
             renderElement={renderElement}
