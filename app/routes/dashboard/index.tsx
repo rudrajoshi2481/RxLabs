@@ -39,6 +39,7 @@ import { AiOutlineDown, AiFillWarning } from "react-icons/ai";
 import { PinInput, PinInputField } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { PresContext, PresContextProvider } from "~/context/presContext";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -48,6 +49,7 @@ import {
 import FindPatient from "~/components/FindPatient";
 import MapFinder from "~/components/MapFinder";
 import {BiArrowBack} from "react-icons/bi"
+import { drugFoodIntrect } from "~/utils/drug.server";
 function Index() {
   // const [d,setD] = useContext(PresContext)
 
@@ -237,6 +239,57 @@ const PresStack = ({ data }: any) => {
     setPreCon(newList)
   };
 
+  const drugFoodIntrect = [
+    {
+        drug:"aspirin",
+        avoid:"FeverFew,ginkgo,green tea"
+    },
+    {
+        drug:"lithium",
+        avoid:"Significant increase or decrease in sodium intake"
+    },
+    {
+        drug:"digoxin",
+        avoid:"high-fiber food and meals"
+    },
+    {
+      drug:"levodopa",
+      avoid:"Excess protin"
+  },
+  {
+    drugs:"warfarin",
+    avoid:"Vitamin K-rich foods and supplements,Asian ginseng fecerfew,farlic,ginger,ginkgo,St.John's wort ,green tea"
+  },
+  {
+    drugs:"tetracycline",
+    avoid:"iron-rich food or supplements,calcium"
+  }
+]
+
+
+// const drugDrugIntrection = [
+//   {
+//     drug:["fluoxetine","phenelzine"],
+//     drug:["digoxin","quinidine"],
+//     drug:["warfarin","diflunisal"],
+//   }
+// ]
+
+const [a,setA] = useState("")
+const updateAvoid = (e:any) => {
+  console.log("Avouid Update",e.target.value);
+  
+  drugFoodIntrect.map(o => {
+    console.log(o,"MAP");
+    
+    if(e.target.value === o.drug){
+      setA(o.avoid)
+      console.log(a,"A");
+      
+    }
+  })  
+}
+
   return (
     <Box py="3" w="full" display="flex" justifyContent="space-around">
       {/* <Text color="red  "><AiFillWarning /></Text> */}
@@ -248,8 +301,15 @@ const PresStack = ({ data }: any) => {
           type="text"
           placeholder="name of Drug"
           value={data.nameDrug}
-          onChange={(e) => updateData(e, data.id, "nameDrug")}
+          onChange={(e) => {updateData(e, data.id, "nameDrug");updateAvoid(e)}}
         />
+       {
+         a ? <Text color={"tomato"}>
+         Drug Food Intrection : {
+           a
+         }
+        </Text> : null
+       }
       </VStack>
       <Spacer />
       <VStack mx="2">

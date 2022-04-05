@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { Input } from "@chakra-ui/react";
-import { ActionFunction, useActionData } from "remix";
+import { ActionFunction, Form, useActionData } from "remix";
 import { fireAuth, firestore } from "~/utils/fire.server";
 import { LoginContext } from "~/context/loginDataContext";
 
@@ -21,12 +21,14 @@ export const action: ActionFunction = async ({ request }: any) => {
   let email = form.get("email");
   let docEmail = form.get("docEmail");
   console.log(email);
-
+  console.log("CREATE PAT 01");
   const col = firestore.collection("rxpat");
   const labCol = firestore.collection("rxLabsUsers");
   let msg;
   switch (formAction) {
     case "createPat":
+      console.log("CREATE PAT");
+
       col
         .get()
         .then((snap) => {
@@ -34,17 +36,18 @@ export const action: ActionFunction = async ({ request }: any) => {
             if (m.data().email === email) {
               // msg = { status: true, login:true ,data:m.data()};
 
-              console.log(m.data(),"CREATE PAT 01");
-              
+              console.log(m.data(), "CREATE PAT 01");
+
               labCol.get().then((snapLabs) => {
                 snapLabs.forEach((sl) => {
                   if (sl.data().email === docEmail) {
                     // add list of patat
                     let listOfPat = sl.data().patList;
                     let oldList = listOfPat.push(email);
-
+                    console.log(sl.data(), "DOC DATA");
                     col
-                      .add({ oldList, ...sl.data() })
+                      .doc()
+                      .set({ oldList, ...sl.data() })
                       .then((res) => {
                         console.log("Saved in the database");
                       })
@@ -103,26 +106,28 @@ const CreateNewPatient = () => {
       mt="3"
       w="60"
     >
-      <FormLabel>Patient Email Id</FormLabel>
-      <Input
-        mb="1"
-        name="email"
-        type="email"
-        my="1"
-        onChange={(e) => setE(e.target.value)}
-        value={e}
-        placeholder="patient Email"
-      />
-      <Input value={d.email} name="docEmail" />
-      <Button
-        m="3"
-        name="_action"
-        value={"createPat"}
-        type="submit"
-        colorScheme={"green"}
-      >
-        create Patient
-      </Button>
+      <Form method="post">
+        <FormLabel>Patient Email Id</FormLabel>
+        <Input
+          mb="1"
+          name="email"
+          type="email"
+          my="1"
+          onChange={(e) => setE(e.target.value)}
+          value={e}
+          placeholder="patient Email"
+        />
+        <Input value={d.email} name="docEmail" />
+        <Button
+          m="3"
+          name="_action"
+          value={"createPat"}
+          type="submit"
+          colorScheme={"green"}
+        >
+          create Patient
+        </Button>
+      </Form>
     </Box>
   );
 };

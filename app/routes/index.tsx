@@ -1,4 +1,4 @@
-import { Heading } from "@chakra-ui/react";
+import { Box, Heading, VStack } from "@chakra-ui/react";
 import React from "react";
 import { LoaderFunction, useLoaderData } from "remix";
 import { firestore } from "~/utils/fire.server";
@@ -17,10 +17,14 @@ function Index() {
   const post = useLoaderData();
 
   return (
-    <>
-      <Heading>Home Page</Heading>
-      {JSON.stringify(post)}
-    </>
+    <Box height={"100vh"} display={"flex"} justifyContent="center" alignItems={"center"}>
+      <VStack>
+      <Heading style={{fontSize:"5em"}}>Health</Heading>
+      <Heading style={{fontSize:"5em"}}>equity</Heading>
+      <Heading style={{fontSize:"5em"}}>always</Heading>
+      </VStack>
+      {/* {JSON.stringify(post)} */}
+    </Box>
   );
 }
 
